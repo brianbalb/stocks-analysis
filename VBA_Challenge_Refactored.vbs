@@ -42,12 +42,13 @@ Sub AllStocksAnalysisRefactored()
  tickerIndex = 0
 
 '1b) Create three output arrays
-Dim TickerVolumes(12) As Long
-Dim TickerStartingPrices(12) As Single, TickerEndingPrices(12) As Single
+Dim tickerVolumes(12) As Long
+Dim tickerStartingPrices(12) As Single
+Dim tickerEndingPrices(12) As Single
 
 ''2a) Create a for loop to initialize the tickerVolumes to zero.
 For i = 0 To 11
-TickerVolumes(i) = 0
+tickerVolumes(i) = 0
 
 Next i
 
@@ -55,22 +56,22 @@ Next i
   For i = 2 To RowCount
 
  '3a) Increase volume for current ticker
-     TickerVolumes(tickerIndex) = TickerVolumes(tickerIndex) + Cells(i, 8).Value
+     tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value
 
 
  '3b) Check if the current row is the first row with the selected tickerIndex.
 
 
     If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i - 1, 1).Value <> tickers(tickerIndex) Then
-    TickerStartingPrices(tickerIndex) = Cells(i, 6).Value
+    tickerStartingPrices(tickerIndex) = Cells(i, 6).Value
 
   End If
 
 '3c) check if the current row is the last row with the selected ticker
-'If the next row�s ticker doesn�t match, increase the tickerIndex.
+'If the next row?s ticker doesn?t match, increase the tickerIndex.
 
      If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i + 1, 1).Value <> tickers(tickerIndex) Then
-     TickerEndingPrices(tickerIndex) = Cells(i, 6).Value
+     tickerEndingPrices(tickerIndex) = Cells(i, 6).Value
 
    End If
 
@@ -86,8 +87,8 @@ For i = 0 To 11
 
 Worksheets("All Stocks Analysis").Activate
 Cells(4 + i, 1).Value = tickers(i)
-Cells(4 + i, 2).Value = TickerVolumes(i)
-Cells(4 + i, 3).Value = TickerEndingPrices(i) / TickerStartingPrices(i) - 1
+Cells(4 + i, 2).Value = tickerVolumes(i)
+Cells(4 + i, 3).Value = tickerEndingPrices(i) / tickerStartingPrices(i) - 1
 
     Next i
 
@@ -120,4 +121,3 @@ Cells(4 + i, 3).Value = TickerEndingPrices(i) / TickerStartingPrices(i) - 1
     MsgBox "This code ran in " & (endTime - startTime) & " seconds for the year " & (yearValue)
 
 End Sub
-
